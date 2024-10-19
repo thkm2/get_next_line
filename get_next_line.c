@@ -6,7 +6,7 @@
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:53:37 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/19 16:02:41 by kgiraud          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:19:53 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-/* #include <stdio.h>
+#include <stdio.h>
 #include <fcntl.h>
 int main(void)
 {
@@ -56,4 +56,4 @@ int main(void)
 	printf("%s", get_next_line(fd));
 	close(fd);
 	return (0);
-} */
+}

@@ -6,7 +6,7 @@
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:53:42 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/19 16:17:31 by kgiraud          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:47:54 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+        return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -24,7 +26,7 @@ int	ft_strlen(char *s)
 
 char	*ft_find_new_line(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -55,36 +57,14 @@ char	*ft_strndup(char *s, int n)
 	return (rs);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		len;
-	int		i;
-	int		j;
-	char	*rs;
-
-	if (!s1)
-		return (ft_strndup(s2, ft_strlen(s2)));
-	len = ft_strlen(s1) + ft_strlen(s2);
-	i = -1;
-	j = -1;
-	rs = (char *)malloc(sizeof(char) * (len + 1));
-	if (!rs)
-		return (NULL);
-	while (s1[++i])
-		rs[i] = s1[i];
-	while (s2[++j])
-		rs[i + j] = s2[j];
-	rs[i + j] = '\0';
-	free(s1);
-	return (rs);
-}
-
 char	*ft_get_line(char *s)
 {
 	int		len;
 	char	*tmp;
 	char	*line;
 
+	if (!s || !*s)
+        return (NULL);
 	tmp = ft_find_new_line(s);
 	if (tmp)
 		len = tmp - s + 1;
@@ -101,6 +81,8 @@ char	*ft_get_rest(char *s)
 	char	*tmp;
 	char	*rest;
 
+	if (!s)
+		return (NULL);
 	tmp = ft_find_new_line(s);
 	if (!tmp)
 	{

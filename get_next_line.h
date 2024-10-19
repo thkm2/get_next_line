@@ -6,7 +6,7 @@
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:52:25 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/19 15:22:26 by kgiraud          ###   ########.fr       */
+/*   Updated: 2024/10/19 16:29:05 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd);
 
 int		ft_strlen(char *s);
 char	*ft_find_new_line(char *s);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strndup(char *s, int n);
 char	*ft_get_line(char *s);
 char	*ft_get_rest(char *s);
 

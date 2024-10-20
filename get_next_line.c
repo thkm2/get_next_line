@@ -6,7 +6,7 @@
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:53:37 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/19 16:45:40 by kgiraud          ###   ########.fr       */
+/*   Updated: 2024/10/20 14:24:13 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*ft_read_until_newline(int fd, char *buffer, char *rest)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
+			free(rest);
 			free(buffer);
 			return (NULL);
 		}

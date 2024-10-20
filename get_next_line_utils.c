@@ -6,7 +6,7 @@
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 10:53:42 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/19 16:47:54 by kgiraud          ###   ########.fr       */
+/*   Updated: 2024/10/20 14:35:21 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strlen(char *s)
 
 	i = 0;
 	if (!s)
-        return (0);
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -64,7 +64,7 @@ char	*ft_get_line(char *s)
 	char	*line;
 
 	if (!s || !*s)
-        return (NULL);
+		return (NULL);
 	tmp = ft_find_new_line(s);
 	if (tmp)
 		len = tmp - s + 1;
@@ -91,8 +91,8 @@ char	*ft_get_rest(char *s)
 	}
 	tmp += 1;
 	rest = ft_strndup(tmp, ft_strlen(tmp));
+	free(s);
 	if (!rest)
 		return (NULL);
-	free(s);
 	return (rest);
 }

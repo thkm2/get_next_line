@@ -5,47 +5,36 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 10:53:37 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/20 14:24:13 by kgiraud          ###   ########.fr       */
+/*   Created: 2024/10/20 17:21:16 by kgiraud           #+#    #+#             */
+/*   Updated: 2024/10/20 19:09:44 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *rest, char *buffer)
 {
 	int		len;
-	int		i;
-	int		j;
-	char	*rs;
+	char	*new;
 
-	if (!s1 && !s2)
+	len = ft_strlen(rest) + ft_strlen(buffer);
+	new = (char *)malloc(sizeof(char) * (len + 1));
+	if (!new)
+	{
+		free(rest);
 		return (NULL);
-	if (!s1)
-		return (ft_strndup(s2, ft_strlen(s2)));
-	if (!s2)
-		return (ft_strndup(s2, ft_strlen(s1)));
-	len = ft_strlen(s1) + ft_strlen(s2);
-	i = -1;
-	j = -1;
-	rs = (char *)malloc(sizeof(char) * (len + 1));
-	if (!rs)
-		return (NULL);
-	while (s1[++i])
-		rs[i] = s1[i];
-	while (s2[++j])
-		rs[i + j] = s2[j];
-	rs[i + j] = '\0';
-	free(s1);
-	return (rs);
+	}
+	new = ft_strcat_in_memory(new, rest, buffer, len);
+	free(rest);
+	return (new);
 }
 
-char	*ft_read_until_newline(int fd, char *buffer, char *rest)
+char	*ft_read_until_nl(int fd, char *buffer, char *rest)
 {
 	int	bytes_read;
 
 	bytes_read = 1;
-	while (!ft_find_new_line(rest) && bytes_read != 0)
+	while (!ft_find_nl(rest) && bytes_read != 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
@@ -63,17 +52,18 @@ char	*ft_read_until_newline(int fd, char *buffer, char *rest)
 
 char	*get_next_line(int fd)
 {
-	static char	*rest;
 	char		*buffer;
 	char		*line;
+	static char	*rest;
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
+		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	rest = ft_read_until_newline(fd, buffer, rest);
-	line = ft_get_line(rest);
-	rest = ft_get_rest(rest);
+	rest = ft_read_until_nl(fd, buffer, rest);
+	line = ft_find_line(rest);
+	rest = ft_find_rest(rest);
 	return (line);
 }
 
@@ -82,8 +72,6 @@ char	*get_next_line(int fd)
 int main(void)
 {
 	int fd = open("test.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	close(fd);
 	return (0);

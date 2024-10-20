@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgiraud <kgiraud@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 10:53:42 by kgiraud           #+#    #+#             */
-/*   Updated: 2024/10/20 14:35:21 by kgiraud          ###   ########.fr       */
+/*   Created: 2024/10/20 17:22:13 by kgiraud           #+#    #+#             */
+/*   Updated: 2024/10/20 19:06:10 by kgiraud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,40 +24,40 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_find_new_line(char *s)
+char	*ft_find_nl(char *s)
 {
-	int	i;
-
-	i = 0;
 	if (!s)
 		return (NULL);
-	while (s[i])
+	while (*s)
 	{
-		if (s[i] == '\n')
-			return (s + i);
-		i++;
+		if (*s == '\n')
+			return (s);
+		s++;
 	}
 	return (NULL);
 }
 
-char	*ft_strndup(char *s, int n)
+char	*ft_strcat_in_memory(char *memory, char *s1, char *s2, int len)
 {
-	int		len;
-	char	*rs;
+	int	i;
+	int	j;
 
-	len = ft_strlen(s);
-	if (n < len)
-		len = n;
-	rs = (char *)malloc(sizeof(char) * (len + 1));
-	if (!rs)
-		return (NULL);
-	rs[len] = '\0';
-	while (len-- > 0)
-		rs[len] = s[len];
-	return (rs);
+	i = -1;
+	j = -1;
+	if (s1)
+	{
+		while (s1[++i])
+			memory[i] = s1[i];
+	}
+	else
+		i = 0;
+	while (s2[++j] && j < len)
+		memory[i + j] = s2[j];
+	memory[i + j] = '\0';
+	return (memory);
 }
 
-char	*ft_get_line(char *s)
+char	*ft_find_line(char *s)
 {
 	int		len;
 	char	*tmp;
@@ -65,34 +65,41 @@ char	*ft_get_line(char *s)
 
 	if (!s || !*s)
 		return (NULL);
-	tmp = ft_find_new_line(s);
+	tmp = ft_find_nl(s);
 	if (tmp)
 		len = tmp - s + 1;
 	else
 		len = ft_strlen(s);
-	line = ft_strndup(s, len);
-	if (!len)
+	line = (char *)malloc(sizeof(char) * (len + 1));
+	if (!line)
 		return (NULL);
+	line = ft_strcat_in_memory(line, NULL, s, len);
 	return (line);
 }
 
-char	*ft_get_rest(char *s)
+char	*ft_find_rest(char *s)
 {
-	char	*tmp;
+	int		len;
+	char	*start;
 	char	*rest;
 
 	if (!s)
 		return (NULL);
-	tmp = ft_find_new_line(s);
-	if (!tmp)
+	start = ft_find_nl(s);
+	if (!start)
 	{
 		free(s);
 		return (NULL);
 	}
-	tmp += 1;
-	rest = ft_strndup(tmp, ft_strlen(tmp));
-	free(s);
+	start += 1;
+	len = ft_strlen(start);
+	rest = (char *)malloc(sizeof(char) * (len + 1));
 	if (!rest)
+	{
+		free(s);
 		return (NULL);
+	}
+	rest = ft_strcat_in_memory(rest, NULL, start, len);
+	free(s);
 	return (rest);
 }
